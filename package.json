@@ -1,0 +1,58 @@
+{
+  "name": "egg-tcb",
+  "version": "1.0.0",
+  "description": "tcb plugin for egg",
+  "eggPlugin": {
+    "name": "tcb"
+  },
+  "keywords": [
+    "egg",
+    "eggPlugin",
+    "egg-plugin",
+    "tcb",
+    "腾讯云开发"
+  ],
+  "dependencies": {
+    "@cloudbase/manager-node": "^3.8.1",
+    "node-homedir": "^1.1.1"
+  },
+  "devDependencies": {
+    "autod": "^3.1.1",
+    "autod-egg": "^1.1.0",
+    "egg": "^2.29.1",
+    "egg-bin": "^4.15.0",
+    "egg-ci": "^1.18.0",
+    "egg-mock": "^4.0.1",
+    "eslint": "^7.13.0",
+    "eslint-config-egg": "^8.1.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "egg-bin pkgfiles --check && npm run lint && npm run cov",
+    "pkgfiles": "egg-bin pkgfiles",
+    "autod": "autod"
+  },
+  "files": [
+    "config",
+    "agent.js"
+  ],
+  "ci": {
+    "version": "8, 10, 12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eggjs/egg-tcb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eggjs/egg/issues"
+  },
+  "homepage": "https://github.com/eggjs/egg-tcb#readme",
+  "author": "Juukee",
+  "license": "MIT"
+}
