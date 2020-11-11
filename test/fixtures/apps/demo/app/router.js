@@ -2,6 +2,6 @@
 
 module.exports = app => {
   app.get('/', function* () {
-    this.body = `hello alinode, enable: ${this.app.config.alinode.enable}, env: ${this.app.config.env}`;
+    this.body = `hello tcb, enable: ${this.app.config.tcb.enable}, env: ${this.app.config.env}`;
   });
 };

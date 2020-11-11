@@ -7,13 +7,13 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = agent => {
-  const config = agent.config.alinode;
+  const config = agent.config.tcb;
   if (!config.enable) {
-    agent.coreLogger.info('[egg-alinode] disable');
+    agent.coreLogger.info('[egg-tcb] disable');
     return;
   }
-  assert(config.appid, 'config.alinode.appid required');
-  assert(config.secret, 'config.alinode.secret required');
+  assert(config.secretId, 'config.tcb.secretId required');
+  assert(config.secretKey, 'config.tcb.secretKey required');
 
   const nodepathFile = path.join(homedir(), '.nodepath');
   const nodeBin = path.dirname(process.execPath);
@@ -21,13 +21,12 @@ module.exports = agent => {
 
   config.logger = agent.coreLogger;
   config.libMode = true;
-  new CloudBase(config).run();
-  agent.coreLogger.info('[egg-alinode] alinode agentx started, node versions: %j, update %s with %j, config: %j',
+  new CloudBase(config);
+  agent.coreLogger.info('[egg-tcb] tcb agentx started, node versions: %j, update %s with %j, config: %j',
     process.versions,
     nodepathFile,
     nodeBin,
     {
-      server: config.server,
       appid: config.appid,
     }
   );

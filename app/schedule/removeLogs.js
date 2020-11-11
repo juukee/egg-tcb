@@ -14,7 +14,7 @@ module.exports = app => {
     cron: '0 0 * * *', // run every day at 00:00
   };
   exports.task = function* () {
-    const logdir = app.config.alinode.logdir;
+    const logdir = app.config.tcb.logdir;
     const maxDays = 7;
     try {
       yield removeExpiredLogFiles(logdir, maxDays);
@@ -42,13 +42,13 @@ module.exports = app => {
       return;
     }
 
-    logger.info(`[egg-alinode] start remove ${logdir} files: ${names.join(', ')}`);
+    logger.info(`[egg-tcb] start remove ${logdir} files: ${names.join(', ')}`);
     yield names.map(name => function* () {
       const logfile = path.join(logdir, name);
       try {
         yield fs.unlink(logfile);
       } catch (err) {
-        err.message = `[egg-alinode] remove logfile ${logfile} error, ${err.message}`;
+        err.message = `[egg-tcb] remove logfile ${logfile} error, ${err.message}`;
         logger.error(err);
       }
     });

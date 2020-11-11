@@ -20,8 +20,12 @@ module.exports = appInfo => {
  */
   exports.tcb = {
     enable: true,
-    appid: '',
-    secret: '',
+    secretId: '',
+    secretKey: '',
+    token: '',
+    envId: '',
+    proxy: '',
+    region: '',
     cmddir: path.dirname(require.resolve('commandx/package.json')),
     logdir: tcbLogdir,
     error_log: [
