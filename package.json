@@ -1,6 +1,6 @@
 {
   "name": "egg-tcb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "tcb plugin for egg",
   "eggPlugin": {
     "name": "tcb"
@@ -47,7 +47,9 @@
   "files": [
     "app",
     "config",
-    "agent.js"
+    "agent.js",
+    "lib",
+    "app.js"
   ],
   "ci": {
     "version": "8, 10, 12"

@@ -32,6 +32,8 @@ module.exports = appInfo => {
       path.join(appRoot, `logs/${appInfo.pkg.name}/common-error.log`),
       path.join(appRoot, 'logs/stderr.log'),
     ],
+    app: true,
+    agent: false,
     // seconds
     reconnectDelay: 10,
     heartbeatInterval: 60,
