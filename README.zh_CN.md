@@ -68,7 +68,7 @@ module.exports = {
   },
 };
 ```
-直接通过 app.tcb 访问数据库。
+直接通过 app.tcb 访问。
 ```js
 // app/controller/post.js
 class PostController extends Controller {
@@ -80,6 +80,7 @@ class PostController extends Controller {
 <blockquote>
 返回的是 <font face="黑体" color="red" size="5">promise</font> 要用 then 接收或者await async
 </blockquote>
+
 ### 多实例
 #### 同样需要在配置文件中声明 tcb 的配置，不过和单实例时不同，配置项中需要有一个 clients 字段，分别申明不同实例的配置，同时可以通过 default 字段来配置多个实例中共享的配置（如 secretId 和 secretKey）。需要注意的是在这种情况下要用 get 方法指定相应的实例。（例如：使用 app.tcb.get('d1').env.listEnvs()，而不是直接使用 app.tcb.env.listEnvs() 得到一个 undefined）。
 ```js
