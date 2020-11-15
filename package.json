@@ -1,15 +1,19 @@
 {
   "name": "egg-tcb",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "tcb plugin for egg",
   "eggPlugin": {
-    "name": "tcb"
+    "name": "tcb",
+    "dependencies": [
+      "schedule"
+    ]
   },
   "keywords": [
     "egg",
     "eggPlugin",
     "egg-plugin",
     "tcb",
+    "cloudbase",
     "腾讯云开发"
   ],
   "dependencies": {

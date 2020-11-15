@@ -20,44 +20,124 @@
 [download-image]: https://img.shields.io/npm/dm/egg-tcb.svg?style=flat-square
 [download-url]: https://npmjs.org/package/egg-tcb
 
-<!--
-Description here.
--->
 
-## Install
-
-```bash
-$ npm i egg-tcb --save
-```
-
-## Usage
+## 开启插件
 
 ```js
-// {app_root}/config/plugin.js
+// config/plugin.js
 exports.tcb = {
   enable: true,
   package: 'egg-tcb',
 };
 ```
 
-## Configuration
 
+## 详细配置
+
+请到 [config/config.default.js](config/config.default.js) 查看详细配置项说明。
+
+### 示例配置：
 ```js
-// {app_root}/config/config.default.js
-exports.tcb = {
+// config/config.default.js
+module.exports = {
+  tcb: {
+    client: {
+      enable: true,
+      secretId: 'xxxxx',
+      secretKey: 'xxxxx',
+      envId: 'xxxxx',
+    },
+  },
 };
 ```
 
-see [config/config.default.js](config/config.default.js) for more detail.
+## 使用说明
 
-## Example
+### 单实例
+在配置文件中声明 tcb 的配置。
+```js
+// config/config.default.js
+module.exports = {
+  tcb: {
+    client: {
+      enable: true,
+      secretId: 'xxxxx',
+      secretKey: 'xxxxx',
+      envId: 'xxxxx',
+    },
+  },
+};
+```
+直接通过 app.tcb 访问数据库。
+```js
+// app/controller/post.js
+class PostController extends Controller {
+  async list() {
+    const posts = await this.app.tcb.env.listEnvs();
+  },
+}
+```
+<blockquote>
+返回的是 <font face="黑体" color="red" size="5">promise</font> 要用 then 接收或者await async
+</blockquote>
+### 多实例
+#### 同样需要在配置文件中声明 tcb 的配置，不过和单实例时不同，配置项中需要有一个 clients 字段，分别申明不同实例的配置，同时可以通过 default 字段来配置多个实例中共享的配置（如 secretId 和 secretKey）。需要注意的是在这种情况下要用 get 方法指定相应的实例。（例如：使用 app.tcb.get('d1').env.listEnvs()，而不是直接使用 app.tcb.env.listEnvs() 得到一个 undefined）。
+```js
+// config/config.default.js
+exports.mysql = {
+  clients: {
+    d1: {
+      envId: 'e1',
+    },
+    d2: {
+      envId: 'e2', 
+    },
+  },
+  // default configuration
+  default: {
+    secretId: 'xxxxx',
+    secretKey: 'xxxxx',
+  },
+};
+```
+通过 app.tcb.get('d1') 来获取对应的实例并使用。
+```js
+// app/controller/post.js
+class PostController extends Controller {
+  async list() {
+    const posts = await this.app.tcb.get('d1').env.listEnvs();
+  },
+}
+```
+### 动态创建实例
+我们可以不需要将配置提前申明在配置文件中，而是在应用运行时动态的初始化一个实例。
+```js
+// app.js
+module.exports = app => {
+  app.beforeStart(async () => {
+    const tcbConfig = await app.configCenter.fetch('tcb');
+    // 动态创建 cloudbase 实例
+    app.cloudbase = await app.tcb.createInstanceAsync(tcbConfig);
+  });
+};
+```
+通过 app.cloudbase 来使用这个实例。
+```js
+// app/controller/post.js
+class PostController extends Controller {
+  async list() {
+    const posts = await this.app.cloudbase.env.listEnvs();
+  },
+}
+```
+注意，在动态创建实例的时候，框架也会读取配置中 default 字段内的配置项作为默认配置。
 
-<!-- example here -->
+## 详细接口请访问[cloudbase Node SDK](https://docs.cloudbase.net/api-reference/manager/node/initialization.html)
+## 提问交流
 
-## Questions & Suggestions
-
-Please open an issue [here](https://github.com/juukee/egg-tcb/issues).
+请到 [egg issues](https://github.com/juukee/egg-tcb/issues) 异步交流。
 
 ## License
 
 [MIT](LICENSE)
+
